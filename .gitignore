@@ -1,0 +1,10 @@
+.idea
+mysql-data
+vendor/
+
+compilation_cache/*
+!compilation_cache/.gitkeep
+
+logfiles/*
+!logfiles/.gitkeep
+

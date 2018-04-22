@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+    mysql:
+        image: mysql:5.5
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=seadev
+            - MYSQL_USER=seadev
+            - MYSQL_PASSWORD=example
+        ports:
+            - "3312:3306"
+            
+    nginx-php-fpm:
+        build: 
+            context: ./docker/docker-nginx-php-fpm-7.2
+            dockerfile: ./Dockerfile
+        volumes:
+            - ./:/var/www/html:rw
+        environment:
+            - PHP_MEM_LIMIT=256M
+            - WEBROOT="/var/www/html/public/"
+            - ENABLE_XDEBUG=1
+            - XDEBUG_CONFIG=remote_host=192.168.0.13
+            - PHP_IDE_CONFIG=serverName=seadev
+        ports:
+            - "8012:80"
+        depends_on:
+            - mysql
+            
